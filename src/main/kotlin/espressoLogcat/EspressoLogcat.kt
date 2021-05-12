@@ -5,18 +5,49 @@ package espressoLogcat
 
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class EspressoLogcat {
     fun getLogcat(
-            tag: String,
-            sz: Int = 4 * 1024,
-            withTag: Boolean = false,
-            vararg options: String? = arrayOf("-v", "brief")
-    ): MutableList<String> {
+            tag: String = "*",
+            priority: Priority? = null,
+            bufferedReaderSize: Int = 4 * 1024,
+            withMetadata: Boolean = false,
+            dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ISO_DATE,
+            pidPosition: StringPosition = StringPosition.LAST,
+            metadataPosition: StringPosition = StringPosition.NONE,
+            outputFormat: OutputFormat = OutputFormat.THREADTIME,
+            regExp: Regex? = null,
+            maxLineCount: Int? = null,
+            filename: String? = null,
+            maxRotatedLogCount: Int? = null,
+            dividers: Boolean = false,
+            tCount: Int? = null,
+            tTime: String? = null,
+            pid: Int? = null,
+            outputModifiers: Array<OutputModifier> = arrayOf(),
+            buffer: Array<BufferOptions> = arrayOf(BufferOptions.DEFAULT),
+            vararg options: String? = arrayOf()
+    ): MutableCollection<String> {
         val logcatStrings = mutableMapOf<String, String>()
+        val constructedOptions = LogcatOptions().getOptions(
+                outputFormat = outputFormat,
+                regExp = regExp,
+                maxLineCount = maxLineCount,
+                filename = filename,
+                maxRotatedLogCount = maxRotatedLogCount,
+                dividers = dividers,
+                tCount = tCount,
+                tTime = tTime,
+                pid = pid,
+                outputModifiers = outputModifiers,
+                buffer = buffer
+        )
+        val tagPriority = LogcatOptions().getTagPriority(tag = tag, priority = priority)
         try {
-            val logcat = Runtime.getRuntime().exec(arrayOf("logcat", "-d", "-s", tag, *options))
-            val br = BufferedReader(InputStreamReader(logcat.inputStream), sz)
+            val logcat = Runtime.getRuntime().exec(arrayOf("logcat", "-d", *tagPriority, *constructedOptions, *options))
+            val br = BufferedReader(InputStreamReader(logcat.inputStream), bufferedReaderSize)
             br.forEachLine {
                 val split = it.split("$tag:")
                 if (split.size > 1) {
@@ -25,15 +56,66 @@ class EspressoLogcat {
                     logcatStrings[id] += value
                 }
             }
-            return if (withTag) {
-                val newLogcatStrings = mutableListOf<String>()
-                for (key in logcatStrings) {
-                    newLogcatStrings.add("$key ${logcatStrings.get(key)}")
-                }
-                return newLogcatStrings
+            return if (withMetadata) {
+                formatMetadata(logcatStrings = logcatStrings,
+                        dateTimeFormatter = dateTimeFormatter,
+                        pidPosition = pidPosition,
+                        metadataPosition = metadataPosition)
+
             } else {
-                logcatStrings.values as MutableList<String>
+                logcatStrings.values
             }
+        } catch (exception: Exception) {
+            throw exception
+        }
+    }
+
+    private fun formatMetadata(logcatStrings: MutableMap<String, String>,
+                               dateTimeFormatter: DateTimeFormatter,
+                               pidPosition: StringPosition,
+                               metadataPosition: StringPosition): MutableList<String> {
+        val newLogcatStrings = mutableListOf<String>()
+        for (key in logcatStrings) {
+            val data = logcatStrings.get(key)
+            val tagData = key.toString().split(" ")
+            val date = LocalDateTime.parse("${tagData[0]} ${tagData[1]}", dateTimeFormatter).toString()
+            val formattedMetadata = when (pidPosition) {
+                StringPosition.FIRST -> {
+                    "${tagData[2]} $date"
+                }
+                StringPosition.LAST -> {
+                    "$date ${tagData[2]}"
+                }
+                StringPosition.NONE -> {
+                    date
+                }
+            }
+            val formattedString = when (metadataPosition) {
+                StringPosition.FIRST -> {
+                    "$formattedMetadata $data"
+                }
+                StringPosition.LAST -> {
+                    "$data $formattedMetadata"
+                }
+                StringPosition.NONE -> {
+                    data
+                }
+            }
+            newLogcatStrings.add(formattedString!!)
+        }
+        return newLogcatStrings
+    }
+
+    fun clearLogCat(buffer: Array<BufferOptions> = arrayOf()) {
+        try {
+            val bufferOptions = mutableListOf<String>()
+            if (buffer.isNotEmpty()) {
+                for (option in buffer) {
+                    bufferOptions.add("-b")
+                    bufferOptions.add(option.toString().toLowerCase())
+                }
+            }
+            Runtime.getRuntime().exec(arrayOf("logcat", *bufferOptions.toTypedArray(), "-c"))
         } catch (exception: Exception) {
             throw exception
         }
