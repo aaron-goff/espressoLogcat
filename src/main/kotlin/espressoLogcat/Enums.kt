@@ -1,11 +1,5 @@
 package espressoLogcat
 
-enum class StringPosition {
-    FIRST,
-    LAST,
-    NONE
-}
-
 enum class Priority {
     VERBOSE,
     DEBUG,
@@ -27,19 +21,6 @@ enum class OutputFormat {
     TIME
 }
 
-enum class OutputModifier {
-    COLOR,
-    DESCRIPTIVE,
-    EPOCH,
-    MONOTONIC,
-    PRINTABLE,
-    UID,
-    USEC,
-    UTC,
-    YEAR,
-    ZONE
-}
-
 enum class BufferOptions {
     RADIO,
     EVENTS,
@@ -49,3 +30,12 @@ enum class BufferOptions {
     ALL,
     DEFAULT
 }
+
+data class LineData(
+    val date: String,
+    val pid: String,
+    val tid: String,
+    val level: String,
+    val tag: String,
+    val coreData: String
+)
