@@ -1,7 +1,6 @@
 # espressoLogcat
 Helper library to access logcat during espresso tests
 
-
 ## Installing - tbd
 
 ## Using
@@ -103,8 +102,8 @@ EspressoLogcat.getLogcatLikeLineData(bufferOptions = arrayOf(BufferOptions.DEFAU
 ```
 
 _**options**_: vararg strings to pass in any other logcat options
-Note: Because the core functionality of espressoLogcat involves parsing string responses, it is very possible that adding
-  extra options that affect the logcat output will cause exceptions.
+(_Note_: Because the core functionality of espressoLogcat involves parsing string responses, it is very possible that adding
+  extra options that affect the logcat output will cause exceptions.)
 ```kotlin
 EspressoLogcat.getLogcatLikeLineData(options = arrayOf("-v", "descriptive", "AnotherString"))
 // adb logcat -d -s -v descriptive AnotherString
@@ -112,8 +111,7 @@ EspressoLogcat.getLogcatLikeLineData(options = arrayOf("-v", "descriptive", "Ano
 
 ### Other Modifiers
 _**regex**_: A regex matcher to filter results after they are returned from Logcat
-
-_Note_: This filters after the response from Logcat, and checks for matches on the `coreData` string.
+(_Note_: This filters after the response from Logcat, and checks for matches on the `coreData` string.)
 ```kotlin
 EspressoLogcat.getLogcatLikLineData(regex = Regex(".*MyData.*"))
 ```
@@ -127,7 +125,7 @@ _**bufferedReaderSize**_: An optional parameter to change the size of the buffer
 EspressoLogcat.getLogcatLikeLineData(bufferedReaderSize = 1024)
 ```
 _**filename**_: string used to determine where to store the logcat output
-  Note: Using this in Espresso will save the file to the emulator
+(_Note_: Using this in Espresso will save the file to the emulator)
 ```kotlin
 EspressoLogcat.getLogcatLikeLineData(filename = "/path/to/file.txt")
 ```
