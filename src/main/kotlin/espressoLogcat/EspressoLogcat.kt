@@ -17,7 +17,6 @@ class EspressoLogcat {
             tCount: Int? = null,
             tTime: String? = null,
             pid: Int? = null,
-            bufferOptions: Array<BufferOptions> = arrayOf(BufferOptions.DEFAULT),
             vararg options: String? = arrayOf()
         ): MutableCollection<String> {
             return EspressoLogcat().getLogCat(
@@ -31,7 +30,6 @@ class EspressoLogcat {
                 tTime = tTime,
                 pid = pid,
                 outputFormat = BRIEF,
-                bufferOptions = bufferOptions,
                 options = options
             )
         }
@@ -46,7 +44,6 @@ class EspressoLogcat {
             tCount: Int? = null,
             tTime: String? = null,
             pid: Int? = null,
-            bufferOptions: Array<BufferOptions> = arrayOf(BufferOptions.DEFAULT),
             vararg options: String? = arrayOf()
         ): MutableCollection<String> {
             return EspressoLogcat().getLogCat(
@@ -60,7 +57,6 @@ class EspressoLogcat {
                 tTime = tTime,
                 pid = pid,
                 outputFormat = LONG,
-                bufferOptions = bufferOptions,
                 options = options
             )
         }
@@ -75,7 +71,6 @@ class EspressoLogcat {
             tCount: Int? = null,
             tTime: String? = null,
             pid: Int? = null,
-            bufferOptions: Array<BufferOptions> = arrayOf(BufferOptions.DEFAULT),
             vararg options: String? = arrayOf()
         ): MutableCollection<String> {
             return EspressoLogcat().getLogCat(
@@ -89,7 +84,6 @@ class EspressoLogcat {
                 tTime = tTime,
                 pid = pid,
                 outputFormat = PROCESS,
-                bufferOptions = bufferOptions,
                 options = options
             )
         }
@@ -104,7 +98,6 @@ class EspressoLogcat {
             tCount: Int? = null,
             tTime: String? = null,
             pid: Int? = null,
-            bufferOptions: Array<BufferOptions> = arrayOf(BufferOptions.DEFAULT),
             vararg options: String? = arrayOf()
         ): MutableCollection<String> {
             return EspressoLogcat().getLogCat(
@@ -118,7 +111,6 @@ class EspressoLogcat {
                 tTime = tTime,
                 pid = pid,
                 outputFormat = RAW,
-                bufferOptions = bufferOptions,
                 options = options
             )
         }
@@ -133,7 +125,6 @@ class EspressoLogcat {
             tCount: Int? = null,
             tTime: String? = null,
             pid: Int? = null,
-            bufferOptions: Array<BufferOptions> = arrayOf(BufferOptions.DEFAULT),
             vararg options: String? = arrayOf()
         ): MutableCollection<String> {
             return EspressoLogcat().getLogCat(
@@ -147,7 +138,6 @@ class EspressoLogcat {
                 tTime = tTime,
                 pid = pid,
                 outputFormat = TAG,
-                bufferOptions = bufferOptions,
                 options = options
             )
         }
@@ -162,7 +152,6 @@ class EspressoLogcat {
             tCount: Int? = null,
             tTime: String? = null,
             pid: Int? = null,
-            bufferOptions: Array<BufferOptions> = arrayOf(BufferOptions.DEFAULT),
             vararg options: String? = arrayOf()
         ): MutableCollection<String> {
             return EspressoLogcat().getLogCat(
@@ -176,7 +165,6 @@ class EspressoLogcat {
                 tTime = tTime,
                 pid = pid,
                 outputFormat = THREAD,
-                bufferOptions = bufferOptions,
                 options = options
             )
         }
@@ -191,7 +179,6 @@ class EspressoLogcat {
             tCount: Int? = null,
             tTime: String? = null,
             pid: Int? = null,
-            bufferOptions: Array<BufferOptions> = arrayOf(BufferOptions.DEFAULT),
             vararg options: String? = arrayOf()
         ): MutableCollection<String> {
             return EspressoLogcat().getLogCat(
@@ -204,7 +191,6 @@ class EspressoLogcat {
                 tCount = tCount,
                 tTime = tTime,
                 pid = pid,
-                bufferOptions = bufferOptions,
                 options = options
             )
         }
@@ -219,8 +205,6 @@ class EspressoLogcat {
             tCount: Int? = null,
             tTime: String? = null,
             pid: Int? = null,
-            
-            bufferOptions: Array<BufferOptions> = arrayOf(BufferOptions.DEFAULT),
             vararg options: String? = arrayOf()
         ): MutableCollection<String> {
             return EspressoLogcat().getLogCat(
@@ -234,7 +218,6 @@ class EspressoLogcat {
                 tTime = tTime,
                 pid = pid,
                 outputFormat = TIME,
-                bufferOptions = bufferOptions,
                 options = options
             )
         }
@@ -253,7 +236,6 @@ class EspressoLogcat {
          * @param tTime string for only printing the lines since the provided time, accompanies the `-t` flag.
          *        exclusive with `tCount`
          * @param pid allows filtering by a specific pid, accompanies the `--pid` flag.
-         * @param bufferOptions an array of buffer options for the logcat, each accompanies the `-b` flag.
          * @param options an additional string array to include any logcat options not provided for by the other parameters.
          */
         fun getLogcatLikeLineData(
@@ -265,7 +247,6 @@ class EspressoLogcat {
             tCount: Int? = null,
             tTime: String? = null,
             pid: Int? = null,
-            bufferOptions: Array<BufferOptions> = arrayOf(BufferOptions.DEFAULT),
             vararg options: String? = arrayOf()
         ): MutableCollection<LineData> {
             // uses the above parameters to construct a string array
@@ -273,7 +254,6 @@ class EspressoLogcat {
                 tCount = tCount,
                 tTime = tTime,
                 pid = pid,
-                buffer = bufferOptions
             )
             // formatted tag:priority string array
             val tagPriority = LogcatOptions().getTagPriority(tag = tag, priority = priority)
@@ -330,16 +310,9 @@ class EspressoLogcat {
             }
         }
 
-        fun clearLogcat(buffer: Array<BufferOptions> = arrayOf()) {
+        fun clearLogcat() {
             try {
-                val bufferOptions = mutableListOf<String>()
-                if (buffer.isNotEmpty()) {
-                    for (option in buffer) {
-                        bufferOptions.add("-b")
-                        bufferOptions.add(option.toString().toLowerCase())
-                    }
-                }
-                Runtime.getRuntime().exec(arrayOf("logcat", *bufferOptions.toTypedArray(), "-c"))
+                Runtime.getRuntime().exec(arrayOf("logcat", "-c"))
             } catch (exception: Exception) {
                 throw exception
             }
@@ -356,7 +329,6 @@ class EspressoLogcat {
         tCount: Int? = null,
         tTime: String? = null,
         pid: Int? = null,
-        bufferOptions: Array<BufferOptions> = arrayOf(BufferOptions.DEFAULT),
         outputFormat: OutputFormat = THREADTIME,
         vararg options: String? = arrayOf()
     ): MutableCollection<String> {
@@ -369,7 +341,6 @@ class EspressoLogcat {
             tCount = tCount,
             tTime = tTime,
             pid = pid,
-            bufferOptions = bufferOptions,
             options = options
         )
         return Formatters().formatLineData(lineDataValues, outputFormat, filename = filename)

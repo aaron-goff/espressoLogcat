@@ -1,13 +1,10 @@
 package espressoLogcat
 
-import espressoLogcat.BufferOptions.*
-
 class LogcatOptions {
     fun getOptions(
         tCount: Int? = null,
         tTime: String? = null,
         pid: Int? = null,
-        vararg buffer: BufferOptions = arrayOf(DEFAULT)
     ): Array<String> {
         val options = mutableListOf<String>()
 
@@ -25,30 +22,18 @@ class LogcatOptions {
             options.add("--pid=$pid")
         }
 
-        // add buffer options
-        for (option in buffer) {
-            options.add("-b")
-            options.add(option.toString().toLowerCase())
-        }
-
         return options.toTypedArray()
     }
 
     fun getTagPriority(tag: String = "*", priority: Priority? = null): Array<String> {
-        val tagPriority = if (priority == null) {
-            if (tag == "*") {
-                ""
+        return if (priority == null) {
+            if (tag.startsWith("*")) {
+                arrayOf("")
             } else {
-                tag
+                arrayOf(tag)
             }
         } else {
-            "$tag:${priority.toString()[0]}"
-        }
-
-        return if (tagPriority.startsWith("*")) {
-            arrayOf(tagPriority)
-        } else {
-            arrayOf(tagPriority, "-s")
+            arrayOf("$tag:${priority.abbr}", "-s")
         }
     }
 }
