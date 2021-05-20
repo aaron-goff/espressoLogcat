@@ -6,254 +6,245 @@ import java.io.InputStreamReader
 import java.time.format.DateTimeFormatter
 
 class EspressoLogcat {
+    /**
+     * Settings Class is used to set static variables that are used when getting the logcat
+     */
+    class Settings {
+        companion object {
+            /**
+             * Buffered Reader size when parsing the logcat
+             */
+            var bufferedReaderSize: Int = 4 * 1024
+
+            /**
+             * dateTimeFormatter is used format the date as a string
+             */
+            var dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+
+            /**
+             * If set, will only return strings since a certain time.
+             * Should be a String in ISO_LOCAL_DATE_TIME format -- 'YYYY-MM-ddTHH:mm:ss.SSS'
+             * Exclusive of maxLines
+             */
+            var sinceTime: String? = null
+
+            /**
+             * If set, will only return the most recent X lines
+             * Excluse of sinceTime
+             */
+            var maxLines: Int? = null
+
+            /**
+             * Filename for the logcat output to be stored in.
+             * Note: If used with Espresso, this file will be on the device Espresso is executed on.
+             */
+            var filename: String? = null
+        }
+    }
+
     companion object {
+        /**
+         * Returns the logcat in a Collection<String> formatted as if `-v brief` was added to the logcat query
+         * @param tag String used to match the tag of the application
+         * @param priority determines the log level assigned to the tag
+         * @param regex Regex matcher used after logs are returned on the string data
+         * @param options used to pass in additional strings to the logcat command
+         *      **note**: using this may cause exceptions or have no effect, since EspressoLogcat parses the response from querying logcat
+         */
         fun getLogcatLikeBrief(
             tag: String = "*",
             priority: Priority? = null,
-            bufferedReaderSize: Int = 4 * 1024,
-            dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME,
             regex: Regex? = null,
-            filename: String? = null,
-            tCount: Int? = null,
-            tTime: String? = null,
-            pid: Int? = null,
             vararg options: String? = arrayOf()
         ): MutableCollection<String> {
             return EspressoLogcat().getLogCat(
                 tag = tag,
                 priority = priority,
-                bufferedReaderSize = bufferedReaderSize,
-                dateTimeFormatter = dateTimeFormatter,
                 regex = regex,
-                filename = filename,
-                tCount = tCount,
-                tTime = tTime,
-                pid = pid,
                 outputFormat = BRIEF,
                 options = options
             )
         }
 
+        /**
+         * Returns the logcat in a Collection<String> formatted as if `-v long` was added to the logcat query
+         * @param tag String used to match the tag of the application
+         * @param priority determines the log level assigned to the tag
+         * @param regex Regex matcher used after logs are returned on the string data
+         * @param options used to pass in additional strings to the logcat command
+         *      **note**: using this may cause exceptions or have no effect, since EspressoLogcat parses the response from querying logcat
+         */
         fun getLogcatLikeLong(
             tag: String = "*",
             priority: Priority? = null,
-            bufferedReaderSize: Int = 4 * 1024,
-            dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME,
             regex: Regex? = null,
-            filename: String? = null,
-            tCount: Int? = null,
-            tTime: String? = null,
-            pid: Int? = null,
             vararg options: String? = arrayOf()
         ): MutableCollection<String> {
             return EspressoLogcat().getLogCat(
                 tag = tag,
                 priority = priority,
-                bufferedReaderSize = bufferedReaderSize,
-                dateTimeFormatter = dateTimeFormatter,
                 regex = regex,
-                filename = filename,
-                tCount = tCount,
-                tTime = tTime,
-                pid = pid,
                 outputFormat = LONG,
                 options = options
             )
         }
 
+        /**
+         * Returns the logcat in a Collection<String> formatted as if `-v process` was added to the logcat query
+         * @param tag String used to match the tag of the application
+         * @param priority determines the log level assigned to the tag
+         * @param regex Regex matcher used after logs are returned on the string data
+         * @param options used to pass in additional strings to the logcat command
+         *      **note**: using this may cause exceptions or have no effect, since EspressoLogcat parses the response from querying logcat
+         */
         fun getLogcatLikeProcess(
             tag: String = "*",
             priority: Priority? = null,
-            bufferedReaderSize: Int = 4 * 1024,
-            dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME,
             regex: Regex? = null,
-            filename: String? = null,
-            tCount: Int? = null,
-            tTime: String? = null,
-            pid: Int? = null,
             vararg options: String? = arrayOf()
         ): MutableCollection<String> {
             return EspressoLogcat().getLogCat(
                 tag = tag,
                 priority = priority,
-                bufferedReaderSize = bufferedReaderSize,
-                dateTimeFormatter = dateTimeFormatter,
                 regex = regex,
-                filename = filename,
-                tCount = tCount,
-                tTime = tTime,
-                pid = pid,
                 outputFormat = PROCESS,
                 options = options
             )
         }
 
+        /**
+         * Returns the logcat in a Collection<String> formatted as if `-v raw` was added to the logcat query
+         * @param tag String used to match the tag of the application
+         * @param priority determines the log level assigned to the tag
+         * @param regex Regex matcher used after logs are returned on the string data
+         * @param options used to pass in additional strings to the logcat command
+         *      **note**: using this may cause exceptions or have no effect, since EspressoLogcat parses the response from querying logcat
+         */
         fun getLogcatLikeRaw(
             tag: String = "*",
             priority: Priority? = null,
-            bufferedReaderSize: Int = 4 * 1024,
-            dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME,
             regex: Regex? = null,
-            filename: String? = null,
-            tCount: Int? = null,
-            tTime: String? = null,
-            pid: Int? = null,
             vararg options: String? = arrayOf()
         ): MutableCollection<String> {
             return EspressoLogcat().getLogCat(
                 tag = tag,
                 priority = priority,
-                bufferedReaderSize = bufferedReaderSize,
-                dateTimeFormatter = dateTimeFormatter,
                 regex = regex,
-                filename = filename,
-                tCount = tCount,
-                tTime = tTime,
-                pid = pid,
                 outputFormat = RAW,
                 options = options
             )
         }
 
+        /**
+         * Returns the logcat in a Collection<String> formatted as if `-v tag` was added to the logcat query
+         * @param tag String used to match the tag of the application
+         * @param priority determines the log level assigned to the tag
+         * @param regex Regex matcher used after logs are returned on the string data
+         * @param options used to pass in additional strings to the logcat command
+         *      **note**: using this may cause exceptions or have no effect, since EspressoLogcat parses the response from querying logcat
+         */
         fun getLogcatLikeTag(
             tag: String = "*",
             priority: Priority? = null,
-            bufferedReaderSize: Int = 4 * 1024,
-            dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME,
             regex: Regex? = null,
-            filename: String? = null,
-            tCount: Int? = null,
-            tTime: String? = null,
-            pid: Int? = null,
             vararg options: String? = arrayOf()
         ): MutableCollection<String> {
             return EspressoLogcat().getLogCat(
                 tag = tag,
                 priority = priority,
-                bufferedReaderSize = bufferedReaderSize,
-                dateTimeFormatter = dateTimeFormatter,
                 regex = regex,
-                filename = filename,
-                tCount = tCount,
-                tTime = tTime,
-                pid = pid,
                 outputFormat = TAG,
                 options = options
             )
         }
 
+        /**
+         * Returns the logcat in a Collection<String> formatted as if `-v thread` was added to the logcat query
+         * @param tag String used to match the tag of the application
+         * @param priority determines the log level assigned to the tag
+         * @param regex Regex matcher used after logs are returned on the string data
+         * @param options used to pass in additional strings to the logcat command
+         *      **note**: using this may cause exceptions or have no effect, since EspressoLogcat parses the response from querying logcat
+         */
         fun getLogcatLikeThread(
             tag: String = "*",
             priority: Priority? = null,
-            bufferedReaderSize: Int = 4 * 1024,
-            dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME,
             regex: Regex? = null,
-            filename: String? = null,
-            tCount: Int? = null,
-            tTime: String? = null,
-            pid: Int? = null,
             vararg options: String? = arrayOf()
         ): MutableCollection<String> {
             return EspressoLogcat().getLogCat(
                 tag = tag,
                 priority = priority,
-                bufferedReaderSize = bufferedReaderSize,
-                dateTimeFormatter = dateTimeFormatter,
                 regex = regex,
-                filename = filename,
-                tCount = tCount,
-                tTime = tTime,
-                pid = pid,
                 outputFormat = THREAD,
                 options = options
             )
         }
 
+        /**
+         * Returns the logcat in a Collection<String> formatted as if `-v threadtime` was added to the logcat query
+         * @param tag String used to match the tag of the application
+         * @param priority determines the log level assigned to the tag
+         * @param regex Regex matcher used after logs are returned on the string data
+         * @param options used to pass in additional strings to the logcat command
+         *      **note**: using this may cause exceptions or have no effect, since EspressoLogcat parses the response from querying logcat
+         */
         fun getLogcatLikeThreadtime(
             tag: String = "*",
             priority: Priority? = null,
-            bufferedReaderSize: Int = 4 * 1024,
-            dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME,
             regex: Regex? = null,
-            filename: String? = null,
-            tCount: Int? = null,
-            tTime: String? = null,
-            pid: Int? = null,
             vararg options: String? = arrayOf()
         ): MutableCollection<String> {
             return EspressoLogcat().getLogCat(
                 tag = tag,
                 priority = priority,
-                bufferedReaderSize = bufferedReaderSize,
-                dateTimeFormatter = dateTimeFormatter,
                 regex = regex,
-                filename = filename,
-                tCount = tCount,
-                tTime = tTime,
-                pid = pid,
+                outputFormat = THREADTIME,
                 options = options
             )
         }
 
+        /**
+         * Returns the logcat in a Collection<String> formatted as if `-v time` was added to the logcat query
+         * @param tag String used to match the tag of the application
+         * @param priority determines the log level assigned to the tag
+         * @param regex Regex matcher used after logs are returned on the string data
+         * @param options used to pass in additional strings to the logcat command
+         *      **note**: using this may cause exceptions or have no effect, since EspressoLogcat parses the response from querying logcat
+         */
         fun getLogcatLikeTime(
             tag: String = "*",
             priority: Priority? = null,
-            bufferedReaderSize: Int = 4 * 1024,
-            dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME,
             regex: Regex? = null,
-            filename: String? = null,
-            tCount: Int? = null,
-            tTime: String? = null,
-            pid: Int? = null,
             vararg options: String? = arrayOf()
         ): MutableCollection<String> {
             return EspressoLogcat().getLogCat(
                 tag = tag,
                 priority = priority,
-                bufferedReaderSize = bufferedReaderSize,
-                dateTimeFormatter = dateTimeFormatter,
                 regex = regex,
-                filename = filename,
-                tCount = tCount,
-                tTime = tTime,
-                pid = pid,
                 outputFormat = TIME,
                 options = options
             )
         }
 
         /**
-         * Function that returns the specified logcat in an array of strings
-         *
-         * @param tag the tag to search for
-         * @param priority the priority to apply on the tag
-         * @param bufferedReaderSize size for the buffered reader
-         * @param dateTimeFormatter formatter for the date, requires withMetadata = true
-         * @param regex matcher for filtering logcat, accompanies the `-e` flag
-         *        that `-m` should be paired with the `-e` flag, but will work on its own
-         * @param tCount Integer for only printing the most recent number of lines, accompanies the `-t` flag.
-         *        exclusive with `tTime`
-         * @param tTime string for only printing the lines since the provided time, accompanies the `-t` flag.
-         *        exclusive with `tCount`
-         * @param pid allows filtering by a specific pid, accompanies the `--pid` flag.
-         * @param options an additional string array to include any logcat options not provided for by the other parameters.
+         * Returns the logcat in a Collection<LineData>
+         * @param tag String used to match the tag of the application
+         * @param priority determines the log level assigned to the tag
+         * @param regex Regex matcher used after logs are returned on the string data
+         * @param options used to pass in additional strings to the logcat command
+         *      **note**: using this may cause exceptions or have no effect, since EspressoLogcat parses the response from querying logcat
          */
         fun getLogcatLikeLineData(
             tag: String = "*",
             priority: Priority? = null,
-            bufferedReaderSize: Int = 4 * 1024,
-            dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME,
             regex: Regex? = null,
-            tCount: Int? = null,
-            tTime: String? = null,
-            pid: Int? = null,
             vararg options: String? = arrayOf()
         ): MutableCollection<LineData> {
             // uses the above parameters to construct a string array
-            val constructedOptions = LogcatOptions().getOptions(
-                tCount = tCount,
-                tTime = tTime,
-                pid = pid,
+            val constructedOptions = LogcatOptions().formatMaxLinesAndSinceTime(
+                maxLines = Settings.maxLines,
+                sinceTime = Settings.sinceTime,
             )
             // formatted tag:priority string array
             val tagPriority = LogcatOptions().getTagPriority(tag = tag, priority = priority)
@@ -272,7 +263,7 @@ class EspressoLogcat {
                             *options
                         )
                     )
-                val br = BufferedReader(InputStreamReader(logcat.inputStream), bufferedReaderSize)
+                val br = BufferedReader(InputStreamReader(logcat.inputStream), Settings.bufferedReaderSize)
                 val lines = mutableListOf<String>()
                 br.forEachLine {
                     if (!it.startsWith("----")) {
@@ -282,7 +273,7 @@ class EspressoLogcat {
 
                 val lineDataMap = mutableMapOf<String, LineData>()
                 lines.forEach {
-                    val lineData = Formatters().getLineData(data = it, dateTimeFormatter = dateTimeFormatter)
+                    val lineData = Formatters().getLineData(data = it, dateTimeFormatter = Settings.dateTimeFormatter)
                     if (lineDataMap.containsKey(lineData.date)) {
                         val newCoreData = lineDataMap[lineData.date]!!.coreData + lineData.coreData
                         lineDataMap[lineData.date] =
@@ -319,30 +310,32 @@ class EspressoLogcat {
         }
     }
 
+    /**
+     * Returns the logcat in a Collection<String> formatted as if `-v {outputFormat}` was added to the logcat query
+     * @param tag String used to match the tag of the application
+     * @param priority determines the log level assigned to the tag
+     * @param regex Regex matcher used after logs are returned on the string data
+     * @param outputFormat enum to determine how the output of each string line is formatted
+     * @param options used to pass in additional strings to the logcat command
+     *      **note**: using this may cause exceptions or have no effect, since EspressoLogcat parses the response from querying logcat
+     */
     private fun getLogCat(
         tag: String = "*",
         priority: Priority? = null,
-        bufferedReaderSize: Int = 4 * 1024,
-        dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME,
         regex: Regex? = null,
-        filename: String? = null,
-        tCount: Int? = null,
-        tTime: String? = null,
-        pid: Int? = null,
-        outputFormat: OutputFormat = THREADTIME,
+        outputFormat: OutputFormat,
         vararg options: String? = arrayOf()
     ): MutableCollection<String> {
         val lineDataValues = getLogcatLikeLineData(
             tag = tag,
             priority = priority,
-            bufferedReaderSize = bufferedReaderSize,
-            dateTimeFormatter = dateTimeFormatter,
             regex = regex,
-            tCount = tCount,
-            tTime = tTime,
-            pid = pid,
             options = options
         )
-        return Formatters().formatLineData(lineDataValues, outputFormat, filename = filename)
+        return Formatters().formatLineData(
+            lineDataValues = lineDataValues,
+            outputFormat = outputFormat,
+            filename = Settings.filename
+        )
     }
 }
