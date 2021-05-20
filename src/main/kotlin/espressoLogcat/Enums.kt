@@ -1,15 +1,23 @@
 package espressoLogcat
 
-enum class Priority {
-    VERBOSE,
-    DEBUG,
-    INFO,
-    WARNING,
-    ERROR,
-    FATAL,
-    SILENT
+/**
+ * Priority, also known as level, to be used when querying logcat
+ * `levelFlag` is the first character of the string, which maps to a priority appended to a `tag` string during query
+ */
+enum class Priority(internal val levelFlag: String) {
+    VERBOSE(levelFlag = "V"),
+    DEBUG(levelFlag = "D"),
+    INFO(levelFlag = "I"),
+    WARNING(levelFlag = "W"),
+    ERROR(levelFlag = "E"),
+    FATAL(levelFlag = "F"),
+    SILENT(levelFlag = "S")
 }
 
+/**
+ * Various output formats. These are equivalent to passing in `-v {OutputFormat}` when querying logcat.
+ * However, EspressoLogcat only queries logcat with `threadtime` and then formats the response to match
+ */
 enum class OutputFormat {
     BRIEF,
     LONG,
@@ -20,22 +28,3 @@ enum class OutputFormat {
     THREADTIME,
     TIME
 }
-
-enum class BufferOptions {
-    RADIO,
-    EVENTS,
-    MAIN,
-    SYSTEM,
-    CRASH,
-    ALL,
-    DEFAULT
-}
-
-data class LineData(
-    val date: String,
-    val pid: String,
-    val tid: String,
-    val level: String,
-    val tag: String,
-    val coreData: String
-)

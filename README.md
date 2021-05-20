@@ -95,12 +95,6 @@ EspressoLogcat.getLogcatLikeLineData(pid = 1234)
 // adb logcat -d -s -pid=1234
 ```
 
-_**bufferOptions**_: array of BufferOptions, equal to passing in a buffer variable via `-b`
-```kotlin
-EspressoLogcat.getLogcatLikeLineData(bufferOptions = arrayOf(BufferOptions.DEFAULT))
-// adb logcat -d -s -b default
-```
-
 _**options**_: vararg strings to pass in any other logcat options
 (_Note_: Because the core functionality of espressoLogcat involves parsing string responses, it is very possible that adding
   extra options that affect the logcat output will cause exceptions.)
