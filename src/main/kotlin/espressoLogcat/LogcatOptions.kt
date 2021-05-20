@@ -33,7 +33,7 @@ class LogcatOptions {
                 arrayOf(tag)
             }
         } else {
-            arrayOf("$tag:${priority.abbr}", "-s")
+            arrayOf("$tag:${priority.levelFlag}", "-s")
         }
     }
 }

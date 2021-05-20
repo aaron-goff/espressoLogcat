@@ -2,16 +2,16 @@ package espressoLogcat
 
 /**
  * Priority, also known as level, to be used when querying logcat
- * `abbr` is the first character of the string
+ * `levelFlag` is the first character of the string, which maps to a priority appended to a `tag` string during query
  */
-enum class Priority(val abbr: String) {
-    VERBOSE(abbr = "V"),
-    DEBUG(abbr = "D"),
-    INFO(abbr = "I"),
-    WARNING(abbr = "W"),
-    ERROR(abbr = "E"),
-    FATAL(abbr = "F"),
-    SILENT(abbr = "S")
+enum class Priority(internal val levelFlag: String) {
+    VERBOSE(levelFlag = "V"),
+    DEBUG(levelFlag = "D"),
+    INFO(levelFlag = "I"),
+    WARNING(levelFlag = "W"),
+    ERROR(levelFlag = "E"),
+    FATAL(levelFlag = "F"),
+    SILENT(levelFlag = "S")
 }
 
 /**
