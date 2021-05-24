@@ -1,7 +1,5 @@
 package espressoLogcat
 
-import io.mockk.mockk
-import io.mockk.spyk
 import org.junit.Before
 import org.mockito.Mockito
 import java.io.File
