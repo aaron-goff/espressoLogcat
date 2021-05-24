@@ -14,6 +14,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+    testImplementation("org.mockito:mockito-core:3.3.0")
+    testImplementation("junit:junit:4.12")
+    testImplementation("org.mockito:mockito-inline:2.13.0")
 }
 
 tasks.jar {

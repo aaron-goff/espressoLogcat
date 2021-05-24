@@ -36,7 +36,7 @@ a `Collection<String>`, equal to what the `OutputFormat` would be if you queried
 ```kotlin
 // All examples use the same `firstLineData` object as above
 
-val briefLogcat = EspressoLogcat.getLogcatLikeBrief(tag = "MyTag")
+val briefLogcat = EspressoLogcat().getLogcatLikeBrief(tag = "MyTag")
 // equal to the output of `-v brief`
 // "V/MyTag( 1234): Here's my logged data!"
 

@@ -1,0 +1,60 @@
+2021-05-21 15:44:05.125 23871 23899 V MyTestSDK: EventBus(EventHub) - Processing event #22: {
+2021-05-21 15:44:05.125 23871 23899 V MyTestSDK:     class: Event,
+2021-05-21 15:44:05.125 23871 23899 V MyTestSDK:     name: CollectData,
+2021-05-21 15:44:05.125 23871 23899 V MyTestSDK:     eventNumber: 22,
+2021-05-21 15:44:05.125 23871 23899 V MyTestSDK:     uniqueIdentifier: c8b0b338-0366-4116-a11a-8d9273cec209,
+2021-05-21 15:44:05.125 23871 23899 V MyTestSDK:     source: com.mytest.eventsource.os,
+2021-05-21 15:44:05.125 23871 23899 V MyTestSDK:     type: com.mytest.eventtype.generic.data,
+2021-05-21 15:44:05.125 23871 23899 V MyTestSDK:     pairId: null,
+2021-05-21 15:44:05.125 23871 23899 V MyTestSDK:     responsePairId: bd636dcd-07e8-4ea7-9955-0fa47bc23f40,
+2021-05-21 15:44:05.125 23871 23899 V MyTestSDK:     timestamp: 1621626245121,
+2021-05-21 15:44:05.125 23871 23899 V MyTestSDK:     data: {
+2021-05-21 15:44:05.125 23871 23899 V MyTestSDK:         "args_transactions_link" : "/services",
+2021-05-21 15:44:05.125 23871 23899 V MyTestSDK:         "args_transaction_id" : "MYTEST",
+2021-05-21 15:44:05.125 23871 23899 V MyTestSDK:         
+2021-05-21 15:44:05.125 23871 23899 V MyTestSDK:     }
+2021-05-21 15:44:05.125 23871 23899 V MyTestSDK: }
+2021-05-21 15:44:05.129 23871 23899 V MyTestSDK: EventHub(AMSEventHub) - Event (0c499e29-35d6-464f-8597-56a189b66d54) #23 (LifecycleResume) resulted in 0 consequence events. Time in rules was 0 milliseconds.
+2021-05-21 15:44:05.129 23871 23899 V MyTestSDK: EventBus(EventHub) - Processing event #23: {
+2021-05-21 15:44:05.129 23871 23899 V MyTestSDK:     class: Event,
+2021-05-21 15:44:05.129 23871 23899 V MyTestSDK:     name: LifecycleResume,
+2021-05-21 15:44:05.129 23871 23899 V MyTestSDK:     eventNumber: 23,
+2021-05-21 15:44:05.129 23871 23899 V MyTestSDK:     uniqueIdentifier: 0c499e29-35d6-464f-8597-56a189b66d54,
+2021-05-21 15:44:05.129 23871 23899 V MyTestSDK:     source: com.mytest.eventsource.requestcontent,
+2021-05-21 15:44:05.129 23871 23899 V MyTestSDK:     type: com.mytest.eventtype.generic.lifecycle,
+2021-05-21 15:44:05.129 23871 23899 V MyTestSDK:     pairId: null,
+2021-05-21 15:44:05.129 23871 23899 V MyTestSDK:     responsePairId: d6a3988b-01dc-4b17-ba11-a92a33adb7b4,
+2021-05-21 15:44:05.129 23871 23899 V MyTestSDK:     timestamp: 1621626245123,
+2021-05-21 15:44:05.129 23871 23899 V MyTestSDK:     data: {
+2021-05-21 15:44:05.129 23871 23899 V MyTestSDK:         "action" : "start",
+2021-05-21 15:44:05.129 23871 23899 V MyTestSDK:         "additionalcontextdata" : null
+2021-05-21 15:44:05.129 23871 23899 V MyTestSDK:     }
+2021-05-21 15:44:05.129 23871 23899 V MyTestSDK: }
+2021-05-21 16:44:04.678  3871  3899 V MyTestSDK: EventBus(EventHub) - Processing event #21: {
+2021-05-21 16:44:04.678  3871  3899 V MyTestSDK:     class: Event,
+2021-05-21 16:44:04.678  3871  3899 V MyTestSDK:     name: LifecyclePause,
+2021-05-21 16:44:04.678  3871  3899 V MyTestSDK:     eventNumber: 21,
+2021-05-21 16:44:04.678  3871  3899 V MyTestSDK:     uniqueIdentifier: 1a515c88-2c9e-4084-8d25-e4e30e229f7b,
+2021-05-21 16:44:04.678  3871  3899 V MyTestSDK:     source: com.mytest.eventsource.requestcontent,
+2021-05-21 16:44:04.678  3871  3899 V MyTestSDK:     type: com.mytest.eventtype.generic.lifecycle,
+2021-05-21 16:44:04.678  3871  3899 V MyTestSDK:     pairId: null,
+2021-05-21 16:44:04.678  3871  3899 V MyTestSDK:     responsePairId: 7ca35071-62e1-4a6a-a90f-df5dfd39e503,
+2021-05-21 16:44:04.678  3871  3899 V MyTestSDK:     timestamp: 1621626244676,
+2021-05-21 16:44:04.678  3871  3899 V MyTestSDK:     data: {
+2021-05-21 16:44:04.678  3871  3899 V MyTestSDK:         "action" : "pause"
+2021-05-21 16:44:04.678  3871  3899 V MyTestSDK:     }
+2021-05-21 16:44:04.678  3871  3899 V MyTestSDK: }
+2021-05-21 15:44:04.678 23871 23899 V MyTestSDK: EventBus(EventHub) - Processing event #21: {
+2021-05-21 15:44:04.678 23871 23899 V MyTestSDK:     class: Event,
+2021-05-21 15:44:04.678 23871 23899 V MyTestSDK:     name: LifecyclePause,
+2021-05-21 15:44:04.678 23871 23899 V MyTestSDK:     eventNumber: 21,
+2021-05-21 15:44:04.678 23871 23899 V MyTestSDK:     uniqueIdentifier: 1a515c88-2c9e-4084-8d25-e4e30e229f7b,
+2021-05-21 15:44:04.678 23871 23899 V MyTestSDK:     source: com.mytest.eventsource.requestcontent,
+2021-05-21 15:44:04.678 23871 23899 V MyTestSDK:     type: com.mytest.eventtype.generic.lifecycle,
+2021-05-21 15:44:04.678 23871 23899 V MyTestSDK:     pairId: null,
+2021-05-21 15:44:04.678 23871 23899 V MyTestSDK:     responsePairId: 7ca35071-62e1-4a6a-a90f-df5dfd39e503,
+2021-05-21 15:44:04.678 23871 23899 V MyTestSDK:     timestamp: 1621626244676,
+2021-05-21 15:44:04.678 23871 23899 V MyTestSDK:     data: {
+2021-05-21 15:44:04.678 23871 23899 V MyTestSDK:         "action" : "pause"
+2021-05-21 15:44:04.678 23871 23899 V MyTestSDK:     }
+2021-05-21 15:44:04.678 23871 23899 V MyTestSDK: }
