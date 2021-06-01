@@ -64,6 +64,4 @@ class LogcatOptionsTests: BaseTests() {
         val expectedTagPriority = mutableListOf("")
         assertEquals(expected = expectedTagPriority, actual = actualTagPriority)
     }
-
-
 }

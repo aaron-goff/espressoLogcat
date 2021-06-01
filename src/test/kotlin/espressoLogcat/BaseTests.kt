@@ -1,7 +1,6 @@
 package espressoLogcat
 
 import org.junit.Before
-import org.mockito.Mockito
 import java.io.File
 
 open class BaseTests {
@@ -14,8 +13,6 @@ open class BaseTests {
         lineDataMap[lineDataEventThree.date] = lineDataEventThree
         lineDataMap[lineDataEventFour.date] = lineDataEventFour
     }
-
-    protected val mockLogcatExecutorImpl: LogcatExecutorImpl = Mockito.mock(LogcatExecutorImpl::class.java)
 
     protected val testDataFilename = "src/test/resources/testdata.txt"
     protected fun getFileAsMutableList(filename: String): MutableList<String> {
