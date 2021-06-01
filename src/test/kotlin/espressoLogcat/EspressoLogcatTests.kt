@@ -10,14 +10,13 @@ class EspressoLogcatTests : BaseTests() {
 
     @Before
     fun setup() {
-        dataList = getFileAsMutableList(filename = testDataFilename)
         lineDataValues = Formatters.createLineDataMap(
             lines = dataList,
             dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
         ).values
 
         Mockito.`when`(
-            mockLogcatExecutor.getLogcat(
+            mockLogcatExecutorImpl.getLogcat(
                 tagPriority = mutableListOf(
                     testTag,
                     "-s"
@@ -31,7 +30,7 @@ class EspressoLogcatTests : BaseTests() {
     @Test
     fun testGetLogcatLikeBrief() {
         val expectedList = generateExpectedList(OutputFormat.BRIEF)
-        val el = EspressoLogcat(logcatExecutor = mockLogcatExecutor)
+        val el = EspressoLogcat(logcatExecutor = mockLogcatExecutorImpl)
         val brief = el.getLogcatLikeBrief(tag = testTag)
         assertEquals(expected = expectedList, actual = brief)
     }
@@ -39,7 +38,7 @@ class EspressoLogcatTests : BaseTests() {
     @Test
     fun testGetLogcatLikeLong() {
         val expectedList = generateExpectedList(OutputFormat.LONG)
-        val el = EspressoLogcat(logcatExecutor = mockLogcatExecutor)
+        val el = EspressoLogcat(logcatExecutor = mockLogcatExecutorImpl)
         val long = el.getLogcatLikeLong(tag = testTag)
         assertEquals(expected = expectedList, actual = long)
     }
@@ -47,7 +46,7 @@ class EspressoLogcatTests : BaseTests() {
     @Test
     fun testGetLogcatLikeProcess() {
         val expectedList = generateExpectedList(OutputFormat.PROCESS)
-        val el = EspressoLogcat(logcatExecutor = mockLogcatExecutor)
+        val el = EspressoLogcat(logcatExecutor = mockLogcatExecutorImpl)
         val process = el.getLogcatLikeProcess(tag = testTag)
         assertEquals(expected = expectedList, actual = process)
     }
@@ -55,7 +54,7 @@ class EspressoLogcatTests : BaseTests() {
     @Test
     fun testGetLogcatLikeRaw() {
         val expectedList = generateExpectedList(OutputFormat.RAW)
-        val el = EspressoLogcat(logcatExecutor = mockLogcatExecutor)
+        val el = EspressoLogcat(logcatExecutor = mockLogcatExecutorImpl)
         val raw = el.getLogcatLikeRaw(tag = testTag)
         assertEquals(expected = expectedList, actual = raw)
     }
@@ -63,7 +62,7 @@ class EspressoLogcatTests : BaseTests() {
     @Test
     fun testGetLogcatLikeTag() {
         val expectedList = generateExpectedList(OutputFormat.TAG)
-        val el = EspressoLogcat(logcatExecutor = mockLogcatExecutor)
+        val el = EspressoLogcat(logcatExecutor = mockLogcatExecutorImpl)
         val tag = el.getLogcatLikeTag(tag = testTag)
         assertEquals(expected = expectedList, actual = tag)
     }
@@ -71,7 +70,7 @@ class EspressoLogcatTests : BaseTests() {
     @Test
     fun testGetLogcatLikeThread() {
         val expectedList = generateExpectedList(OutputFormat.THREAD)
-        val el = EspressoLogcat(logcatExecutor = mockLogcatExecutor)
+        val el = EspressoLogcat(logcatExecutor = mockLogcatExecutorImpl)
         val thread = el.getLogcatLikeThread(tag = testTag)
         assertEquals(expected = expectedList, actual = thread)
     }
@@ -79,7 +78,7 @@ class EspressoLogcatTests : BaseTests() {
     @Test
     fun testGetLogcatLikeThreadtime() {
         val expectedList = generateExpectedList(OutputFormat.THREADTIME)
-        val el = EspressoLogcat(logcatExecutor = mockLogcatExecutor)
+        val el = EspressoLogcat(logcatExecutor = mockLogcatExecutorImpl)
         val threadtime = el.getLogcatLikeThreadtime(tag = testTag)
         assertEquals(expected = expectedList, actual = threadtime)
     }
@@ -87,7 +86,7 @@ class EspressoLogcatTests : BaseTests() {
     @Test
     fun testGetLogcatLikeTime() {
         val expectedList = generateExpectedList(OutputFormat.TIME)
-        val el = EspressoLogcat(logcatExecutor = mockLogcatExecutor)
+        val el = EspressoLogcat(logcatExecutor = mockLogcatExecutorImpl)
         val time = el.getLogcatLikeTime(tag = testTag)
         assertEquals(expected = expectedList, actual = time)
     }

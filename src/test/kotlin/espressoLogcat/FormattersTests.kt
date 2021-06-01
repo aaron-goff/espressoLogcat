@@ -9,11 +9,6 @@ import kotlin.test.assertTrue
 
 class FormattersTests: BaseTests() {
 
-    @Before
-    fun setup() {
-        dataList = getFileAsMutableList(filename = testDataFilename)
-    }
-
     @Test
     fun testLineDataMapIsCreated() {
         val lineData =

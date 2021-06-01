@@ -7,13 +7,15 @@ import java.io.File
 open class BaseTests {
     @Before
     fun init() {
+        dataList = getFileAsMutableList(filename = testDataFilename)
+
         lineDataMap[lineDataEventOne.date] = lineDataEventOne
         lineDataMap[lineDataEventTwo.date] = lineDataEventTwo
         lineDataMap[lineDataEventThree.date] = lineDataEventThree
         lineDataMap[lineDataEventFour.date] = lineDataEventFour
     }
 
-    protected val mockLogcatExecutor = Mockito.mock(LogcatExecutor::class.java)
+    protected val mockLogcatExecutorImpl: LogcatExecutorImpl = Mockito.mock(LogcatExecutorImpl::class.java)
 
     protected val testDataFilename = "src/test/resources/testdata.txt"
     protected fun getFileAsMutableList(filename: String): MutableList<String> {

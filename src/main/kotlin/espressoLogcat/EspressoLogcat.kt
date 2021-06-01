@@ -5,9 +5,8 @@ import espressoLogcat.Formatters.Companion.formatLineData
 import espressoLogcat.Formatters.Companion.getUnmatchedLineData
 import espressoLogcat.OutputFormat.*
 import java.time.format.DateTimeFormatter
-import kotlin.math.log
 
-class EspressoLogcat(private val logcatExecutor: LogcatExecutor = LogcatExecutor()) {
+class EspressoLogcat(private val logcatExecutor: LogcatExecutor = LogcatExecutorImpl()) {
     /**
      * Settings Class is used to set static variables that are used when getting the logcat
      */

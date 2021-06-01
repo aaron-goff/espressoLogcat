@@ -35,38 +35,39 @@ a `Collection<String>`, equal to what the `OutputFormat` would be if you queried
 
 ```kotlin
 // All examples use the same `firstLineData` object as above
+val el = EspressoLogcat()
 
-val briefLogcat = EspressoLogcat().getLogcatLikeBrief(tag = "MyTag")
+val briefLogcat = el.getLogcatLikeBrief(tag = "MyTag")
 // equal to the output of `-v brief`
-// "V/MyTag( 1234): Here's my logged data!"
+// "V/MyTag(1234): Here's my logged data!"
 
-val longLogcat = EspressoLogcat.getLogcatLikeLong(tag = "MyTag")
+val longLogcat = el.getLogcatLikeLong(tag = "MyTag")
 // equal to the output of `-v long`
 // "[ 2021-05-14T13:26:12.108 1234: 2345 V/MyTag ]\n Here's my logged data!"
 
-val processLogcat = EspressoLogcat.getLogcatLikeProcess(tag = "MyTag")
+val processLogcat = el.getLogcatLikeProcess(tag = "MyTag")
 // equal to the output of `-v process`
-// "V( 1234) Here's my logged data!"
+// "V(1234) Here's my logged data!"
 
-val rawLogcat = EspressoLogcat.getLogcatLikeRaw(tag = "MyTag")
+val rawLogcat = el.getLogcatLikeRaw(tag = "MyTag")
 // equal to the output of `-v raw`
 // "Here's my logged data!"
 
-val tagLogcat = EspressoLogcat.getLogcatLikeTag(tag = "MyTag")
+val tagLogcat = el.getLogcatLikeTag(tag = "MyTag")
 // equal to the output of `-v tag`
 // "V/MyTag: Here's my logged data!"
 
-val threadLogcat = EspressoLogcat.getLogcatLikeThread(tag = "MyTag")
+val threadLogcat = el.getLogcatLikeThread(tag = "MyTag")
 // equal to the output of `-v thread`
-// "V( 1234: 2345) Here's my logged data!"
+// "V(1234: 2345) Here's my logged data!"
 
-val threadtimeLogcat = EspressoLogcat.getLogcatLikeThreadTime(tag = "MyTag")
+val threadtimeLogcat = el.getLogcatLikeThreadTime(tag = "MyTag")
 // equal to the output of `-v threadtime`
 // "2021-05-14T13:26:12.108  1234  2345 V MyTag: Here's my logged data!"
 
-val timeLogcat = EspressoLogcat.getLogcatLikeTime(tag = "MyTag")
+val timeLogcat = el.getLogcatLikeTime(tag = "MyTag")
 // equal to the output of `-v time`
-// "2021-05-14T13:26:12.108 V/MyTag( 1234): Here's my logged data!"
+// "2021-05-14T13:26:12.108 V/MyTag(1234): Here's my logged data!"
 ```
 
 Additionally, there are a number of parameters that can be used. When passed in, these mimic adding them to
@@ -76,31 +77,23 @@ the `adb logcat` command line
 
 _**tag**_: string used to search, equal to just passing in a string to the command line
 
-```kotlin
-EspressoLogcat.getLogcatLikeLineData(tag = "MyTag")
-// adb logcat -d -s MyTag -v threadtime
-```
-
 _**priority**_: used to set the search level for a tag
-
-```kotlin
-EspressoLogcat.getLogcatLikeLineData(tag = "MyTag", priority = Priority.VERBOSE)
-// adb logcat -d -s MyTag:V
-```
 
 _**regex**_: A regex matcher to filter results after they are returned from Logcat
 (_Note_: This filters after the response from Logcat, and checks for matches on the `coreData` string.)
-
-```kotlin
-EspressoLogcat.getLogcatLikLineData(regex = Regex(".*MyData.*"))
-```
 
 _**options**_: vararg strings to pass in any other logcat options
 (_Note_: Because the core functionality of espressoLogcat involves parsing string responses, it is very possible that
 adding extra options that affect the logcat output will cause exceptions.)
 
 ```kotlin
-EspressoLogcat.getLogcatLikeLineData(options = arrayOf("-v", "descriptive", "AnotherString"))
+val el = EspressoLogcat()
+el.getLogcatLikeLineData(tag = "MyTag")
+// adb logcat -d -s MyTag -v threadtime
+el.getLogcatLikeLineData(tag = "MyTag", priority = Priority.VERBOSE)
+// adb logcat -d -s MyTag:V
+el.getLogcatLikLineData(regex = Regex(".*MyData.*"))
+el.getLogcatLikeLineData(options = arrayOf("-v", "descriptive", "AnotherString"))
 // adb logcat -d -s -v descriptive AnotherString
 ```
 
@@ -109,33 +102,23 @@ EspressoLogcat.getLogcatLikeLineData(options = arrayOf("-v", "descriptive", "Ano
 There are additional variables that can be used to modify the response.
 _**dateTimeFormatter**_: A date time formatter to format the `date` value of the LineData
 
-```kotlin
-EspressoLogcat.Settings.dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
-```
-
 _**bufferedReaderSize**_: An optional parameter to change the size of the buffered reader that processes the logcat
-
-```kotlin
-EspressoLogcat.Settings.bufferedReaderSize = 1024 * 8
-```
 
 _**filename**_: string used to determine where to store the logcat output
 (_Note_: Using this in Espresso will save the file to the emulator)
 
-```kotlin
-EspressoLogcat.Settings.filename = "/my/path/to/file.txt"
-```
-
 _**sinceTime**_: If set, will only return strings since a certain time. Should be a String in ISO_LOCAL_DATE_TIME format
 -- 'YYYY-MM-ddTHH:mm:ss.SSS' (_Note_: Exclusive of maxLines)
 
-```kotlin
-EspressoLogcat.Settings.sinceTime = "2021-05-14T13:26:12.108"
-```
+_**maxLines**_: If set, will only return the most recent X lines (_Note_: Exclusive of sinceTime)
 
-_**maxLines**_: If set, will only return the most recent X lines (_Note_: Excluse of sinceTime)
 ```kotlin
-EspressoLogcat.Settings.maxLines = 10
+val el = EspressoLogcat()
+el.settings.dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+el.settings.bufferedReaderSize = 1024 * 8
+el.settings.filename = "/my/path/to/file.txt"
+el.settings.sinceTime = "2021-05-14T13:26:12.108"
+el.settings.maxLines = 10
 ```
 
 ### Common Logcat Functionality Excluded
@@ -144,3 +127,12 @@ EspressoLogcat.Settings.maxLines = 10
 - Usually, you would combine both the Regex matching (`-e`) with the Max Line flag (`-m`). Instead of using
   Logcat's `-e` flag, when matching on Regex, EspressoLogcat filters after the responses are returned. This means that
   it isn't reasonable to use the `-m` flag.
+  
+
+## FAQs
+- Why does every logcat command use `-s`?
+  - From the [logcat documentation](https://developer.android.com/studio/command-line/logcat#options): 
+    "Equivalent to the filter expression '*:S', which sets priority for all tags to silent, and is used to precede a list of filter expressions that add content."
+- What can I use EspressoLogcat for?
+  - Any use case that you have in Espresso where you need to look at the logcat output. For example, evaluating an analytics output.
+  - You could also collect all of your network calls and write them to a file for evaluation if your tests failed.

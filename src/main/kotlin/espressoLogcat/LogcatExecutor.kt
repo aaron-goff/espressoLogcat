@@ -3,7 +3,7 @@ package espressoLogcat
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-interface ILogcatExecutor {
+interface LogcatExecutor {
     fun getLogcat(
         tagPriority: MutableList<String>,
         constructedOptions: MutableList<String>,
@@ -14,7 +14,7 @@ interface ILogcatExecutor {
     fun clearLogcat() {}
 }
 
-class LogcatExecutor: ILogcatExecutor {
+class LogcatExecutorImpl: LogcatExecutor {
     override fun getLogcat(
         tagPriority: MutableList<String>,
         constructedOptions: MutableList<String>,
